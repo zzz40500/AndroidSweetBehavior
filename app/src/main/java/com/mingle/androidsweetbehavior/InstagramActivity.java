@@ -9,19 +9,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mingle.androidsweetbehavior.adapter.ImageRVAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstagramActivity extends AppCompatActivity {
+public class InstagramActivity extends AppCompatActivity implements View.OnClickListener {
 
 
 
 
     private RecyclerView mRV;
+
+    private ImageView mContentIv;
 
     public static  void startActivity(Context ctx){
         ctx.startActivity(new Intent(ctx,InstagramActivity.class));
@@ -32,8 +38,14 @@ public class InstagramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instagram);
         mRV= (RecyclerView) findViewById(R.id.rv);
+        findViewById(R.id.contentIv).setOnClickListener(this);
 
-
+        findViewById(R.id.contentIv).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         List<String> list=new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
@@ -67,5 +79,10 @@ public class InstagramActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(this,"toast",Toast.LENGTH_LONG).show();
     }
 }

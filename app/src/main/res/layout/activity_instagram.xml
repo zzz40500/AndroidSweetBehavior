@@ -29,6 +29,7 @@
                 android:translationZ="56dp"
                 >
                 <ImageView
+                    android:id="@+id/contentIv"
                     android:layout_width="fill_parent"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_launcher"

@@ -14,22 +14,19 @@ import java.lang.reflect.Method;
 public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
-    boolean isNest = false;
+    private boolean isNest = false;
     private boolean mWasFlung;
 
     private boolean isExpand = false;
 
+    private float mStartY;
 
-    public void setIsNest(boolean isNest) {
-        this.isNest = isNest;
-    }
+
 
     public InAppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-
-    float startY;
 
     @Override
     public boolean onInterceptTouchEvent(CoordinatorLayout parent, AppBarLayout child, MotionEvent ev) {
@@ -45,7 +42,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
                 } else {
                     isExpand = false;
                 }
-                startY = ev.getRawY();
+                mStartY = ev.getRawY();
                 if (!parent.isPointInChildBounds(child, x, y)) {
                     isNest = false;
                 } else {
@@ -54,7 +51,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (parent.isPointInChildBounds(child, x, y) || ev.getY() - startY > 0) {
+                if (parent.isPointInChildBounds(child, x, y) || ev.getY() - mStartY > 0) {
 
                     isNest = true;
 
@@ -78,7 +75,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     public boolean onTouchEvent(CoordinatorLayout parent, AppBarLayout child, MotionEvent ev) {
 
         switch (ev.getAction()) {
-
             case MotionEvent.ACTION_UP:
 
                 snapScrollTo(parent, child);
@@ -90,8 +86,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     @Override
     public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, float velocityX, float velocityY) {
-
-
         if (isExpand) {
             return this.getTopAndBottomOffset() != 0;
 
@@ -102,8 +96,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout parent, AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes) {
-
-
         return super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes);
     }
 
@@ -119,14 +111,8 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, View target) {
-
-
 //        if(!mWasFlung){
-
-
         snapScrollTo(coordinatorLayout, abl);
-
-
 //        }else {
 //
 //            super.onStopNestedScroll(coordinatorLayout, abl, target);
@@ -145,12 +131,9 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
             int offset = -getTopAndBottomOffset();
             if (isExpand) {
                 offset = offset < distance / 5 ? 0 : -distance;
-
             } else {
                 offset = offset < distance * 4 / 5 ? 0 : -distance;
-
             }
-
             method.invoke(this, coordinatorLayout, abl, offset);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -191,4 +174,9 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     boolean canDragView(AppBarLayout view) {
         return true;
     }
+
+    public void setIsNest(boolean isNest) {
+        this.isNest = isNest;
+    }
+
 }
