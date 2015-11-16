@@ -2,11 +2,16 @@ package com.mingle.androidsweetbehavior;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.InAppBarBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,7 +25,7 @@ import com.mingle.androidsweetbehavior.adapter.ImageRVAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstagramActivity extends AppCompatActivity implements View.OnClickListener {
+public class InstagramActivity extends AppCompatActivity implements View.OnClickListener, ImageRVAdapter.OnRvItemClickListener {
 
 
 
@@ -28,6 +33,9 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView mRV;
 
     private ImageView mContentIv;
+
+    private AppBarLayout mAppBarLayout;
+    private CoordinatorLayout mCoordinatorLayout;
 
     public static  void startActivity(Context ctx){
         ctx.startActivity(new Intent(ctx,InstagramActivity.class));
@@ -38,6 +46,8 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instagram);
         mRV= (RecyclerView) findViewById(R.id.rv);
+        mAppBarLayout= (AppBarLayout) findViewById(R.id.appBarLayout);
+        mCoordinatorLayout= (CoordinatorLayout) findViewById(R.id.coordinatorLY);
         findViewById(R.id.contentIv).setOnClickListener(this);
 
         findViewById(R.id.contentIv).setOnTouchListener(new View.OnTouchListener() {
@@ -52,11 +62,11 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
             list.add("");
         }
 
-        GridLayoutManager l=new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false);
 
-        mRV.setLayoutManager(l);
+        mRV.setLayoutManager(gridLayoutManager);
 
-        mRV.setAdapter(new ImageRVAdapter(list));
+        mRV.setAdapter(new ImageRVAdapter(list,this));
     }
 
     @Override
@@ -68,12 +78,7 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -84,5 +89,24 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         Toast.makeText(this,"toast",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRvItemClick(View view, int position) {
+
+//        CoordinatorLayout.LayoutParams layoutParams= (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+//       InAppBarBehavior  appBarBehavior= (InAppBarBehavior) layoutParams.getBehavior();
+//        appBarBehavior.snapScroll(mCoordinatorLayout,mAppBarLayout,true);
+
+        mAppBarLayout.setExpanded(true, true);
+
+        Rect childRect=new Rect();
+        view.getGlobalVisibleRect(childRect);
+        Rect rVRect=new Rect();
+        mRV.getGlobalVisibleRect(rVRect);
+
+
+
+        mRV.smoothScrollBy(0,  childRect.bottom-view.getHeight()-rVRect.top );
     }
 }

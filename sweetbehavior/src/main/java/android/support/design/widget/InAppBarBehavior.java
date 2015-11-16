@@ -120,28 +120,67 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     }
 
+
+
+
+
+    public void snapScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, boolean isExpand){
+
+
+
+//        if(this.isExpand != isExpand) {
+
+            int offset =0;
+
+
+            if(isExpand){
+                offset=0;
+            }else{
+                offset = getMaxDragOffset(abl);
+
+            }
+
+            try {
+                Method method = AppBarLayout.Behavior.class.getDeclaredMethod("animateOffsetTo", CoordinatorLayout.class, AppBarLayout.class, int.class);
+                method.setAccessible(true);
+                method.invoke(this, coordinatorLayout, abl, offset);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+//        }
+
+
+
+
+
+
+
+    }
+
+
     private void snapScrollTo(CoordinatorLayout coordinatorLayout, AppBarLayout abl) {
-        try {
-            Method method = AppBarLayout.Behavior.class.getDeclaredMethod("animateOffsetTo", CoordinatorLayout.class, AppBarLayout.class, int.class);
-            method.setAccessible(true);
+
+
+
+
+
 
 
             int distance = -getMaxDragOffset(abl);
 
             int offset = -getTopAndBottomOffset();
             if (isExpand) {
-                offset = offset < distance / 5 ? 0 : -distance;
+                snapScroll(coordinatorLayout,abl, offset < distance / 5 );
             } else {
-                offset = offset < distance * 4 / 5 ? 0 : -distance;
+                snapScroll(coordinatorLayout,abl, offset < distance * 4 / 5  );
+
             }
-            method.invoke(this, coordinatorLayout, abl, offset);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+
+
     }
 
 
