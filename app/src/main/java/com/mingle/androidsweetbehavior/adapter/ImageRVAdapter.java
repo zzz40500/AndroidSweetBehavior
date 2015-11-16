@@ -32,6 +32,6 @@ public class ImageRVAdapter  extends CommonRcvAdapter {
 
 
     public interface OnRvItemClickListener {
-        void  onRvItemClick(View view,int position);
+        void  onRvItemClick(View view,Object o,int position);
     }
 }

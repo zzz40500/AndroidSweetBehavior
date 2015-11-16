@@ -16,18 +16,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mingle.androidsweetbehavior.adapter.ImageRVAdapter;
+import com.mingle.androidsweetbehavior.entity.ImageEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class InstagramActivity extends AppCompatActivity implements View.OnClickListener, ImageRVAdapter.OnRvItemClickListener {
-
-
 
 
     private RecyclerView mRV;
@@ -36,37 +39,47 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
 
     private AppBarLayout mAppBarLayout;
     private CoordinatorLayout mCoordinatorLayout;
+    private GridLayoutManager gridLayoutManager;
 
-    public static  void startActivity(Context ctx){
-        ctx.startActivity(new Intent(ctx,InstagramActivity.class));
+    public static void startActivity(Context ctx) {
+        ctx.startActivity(new Intent(ctx, InstagramActivity.class));
     }
+
+    private int[] randomIntArray = new int[]{R.mipmap.ic_01, R.mipmap.ic_03,
+
+            R.mipmap.ic_06, R.mipmap.ic_7,
+            R.mipmap.ic_08, R.mipmap.ic_10,
+            R.mipmap.ic_11, R.mipmap.ic_01,
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instagram);
-        mRV= (RecyclerView) findViewById(R.id.rv);
-        mAppBarLayout= (AppBarLayout) findViewById(R.id.appBarLayout);
-        mCoordinatorLayout= (CoordinatorLayout) findViewById(R.id.coordinatorLY);
-        findViewById(R.id.contentIv).setOnClickListener(this);
+        mRV = (RecyclerView) findViewById(R.id.rv);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+        mContentIv = (ImageView) findViewById(R.id.contentIv);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLY);
+        mContentIv.setOnClickListener(this);
 
-        findViewById(R.id.contentIv).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-        List<String> list=new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            list.add("");
+        List<ImageEntity> list = new ArrayList<>();
+        list.add(new ImageEntity(randomIntArray[0]));
+        for (int i = 0; i < 78; i++) {
+            ImageEntity item = new ImageEntity();
+            item.resId = randomIntArray[new Random().nextInt(8)];
+            list.add(item);
         }
 
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false);
+         gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
 
         mRV.setLayoutManager(gridLayoutManager);
 
-        mRV.setAdapter(new ImageRVAdapter(list,this));
+
+
+        mRV.setAdapter(new ImageRVAdapter(list, this));
     }
 
     @Override
@@ -88,25 +101,30 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this,"toast",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "小样,点击了图片", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
-    public void onRvItemClick(View view, int position) {
+    public void onRvItemClick(View view, Object o, int position) {
 
-//        CoordinatorLayout.LayoutParams layoutParams= (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-//       InAppBarBehavior  appBarBehavior= (InAppBarBehavior) layoutParams.getBehavior();
-//        appBarBehavior.snapScroll(mCoordinatorLayout,mAppBarLayout,true);
 
         mAppBarLayout.setExpanded(true, true);
 
-        Rect childRect=new Rect();
+        Rect childRect = new Rect();
         view.getGlobalVisibleRect(childRect);
-        Rect rVRect=new Rect();
+        Rect rVRect = new Rect();
         mRV.getGlobalVisibleRect(rVRect);
 
+        ImageEntity imageEntity = (ImageEntity) o;
+        Glide.with(this).load(imageEntity.resId).into(mContentIv);
 
+        int scrollBy=childRect.bottom - view.getHeight() - rVRect.top;
+        Log.e("InstagramActivity", mRV.canScrollVertically(scrollBy) + "");
+        if (mRV.canScrollVertically(scrollBy)) {
+            mRV.smoothScrollBy(0,scrollBy);
+        }
 
-        mRV.smoothScrollBy(0,  childRect.bottom-view.getHeight()-rVRect.top );
     }
+
 }

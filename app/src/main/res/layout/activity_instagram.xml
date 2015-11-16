@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
 
+                                                 android:background="#fff"
                                                  android:id="@+id/coordinatorLY"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
@@ -22,20 +23,12 @@
             android:minHeight="40dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#f00"
-                android:translationZ="56dp"
-                >
+
                 <ImageView
                     android:id="@+id/contentIv"
                     android:layout_width="fill_parent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_height="fill_parent"/>
-                </android.support.v7.widget.Toolbar>
 
         </com.mingle.widget.ScaleLayout>
 
@@ -45,8 +38,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-        app:layout_behavior="@string/InNestChild"
 
+        android:clipToPadding="false"
+        app:layout_behavior="@string/InNestChild"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
 

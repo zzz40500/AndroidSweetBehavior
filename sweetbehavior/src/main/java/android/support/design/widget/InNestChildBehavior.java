@@ -33,17 +33,21 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
             CoordinatorLayout.Behavior behavior = layoutParams.getBehavior();
             if( behavior instanceof InAppBarBehavior){
                 mDependencyBehavior= (InAppBarBehavior) behavior;
-
             }
-
-
         }
         return super.layoutDependsOn(parent, child, dependency);
-
     }
 
+    @Override
+    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
 
 
+
+
+        return super.onDependentViewChanged(parent, child, dependency);
+
+
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent ev) {

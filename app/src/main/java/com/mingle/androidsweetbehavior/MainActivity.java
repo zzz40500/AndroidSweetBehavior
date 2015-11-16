@@ -1,10 +1,13 @@
 package com.mingle.androidsweetbehavior;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -29,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_github) {
+            Uri uri = Uri.parse("https://github.com/zzz40500/AndroidSweetBehavior");
+            startActivity(new Intent(Intent.ACTION_VIEW,uri));
             return true;
         }
 
@@ -41,5 +45,14 @@ public class MainActivity extends AppCompatActivity {
         InstagramActivity.startActivity(this);
 
 
+    }
+
+    public void studyNotesAction(View view) {
+
+        WebActivity.startActivity(this,"http://www.jianshu.com/p/99adaad8d55c");
+    }
+
+    public void secondClick(View view) {
+        Toast.makeText(this,"期待吧",Toast.LENGTH_LONG).show();
     }
 }

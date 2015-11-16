@@ -7,7 +7,16 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
+              android:background="#ff8b90af"
                 tools:context=".MainActivity">
+
+
+    <Button
+        android:text="android.support.design 学习笔记 1"
+        android:textAllCaps="false"
+        android:onClick="studyNotesAction"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:text="instagram 选择图片效果"
@@ -17,6 +26,7 @@
         android:layout_height="wrap_content"/>
     <Button
         android:text="第二种 (待开发)"
+        android:onClick="secondClick"
         android:textAllCaps="false"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mingle.androidsweetbehavior" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +20,12 @@
         </activity>
         <activity
             android:name=".InstagramActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_instagram" >
+        </activity>
+        <activity android:name=".WebActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
     </application>
 

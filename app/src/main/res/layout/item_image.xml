@@ -10,6 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         <ImageView
+            android:id="@+id/imageIv"
+            android:padding="2dp"
             android:src="@mipmap/ic_launcher"
             android:layout_width="fill_parent"
             android:scaleType="centerCrop"

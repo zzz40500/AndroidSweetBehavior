@@ -2,6 +2,7 @@ package android.support.design.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -56,11 +57,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
                     isNest = true;
 
                     return super.onInterceptTouchEvent(parent, child, ev);
-                } else {
-                    isNest = false;
-
-
-                    return false;
                 }
 
         }
@@ -112,6 +108,8 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, View target) {
 //        if(!mWasFlung){
+
+//        target.setPadding(0,0,0,getMaxDragOffset(abl));
         snapScrollTo(coordinatorLayout, abl);
 //        }else {
 //
@@ -121,8 +119,10 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     }
 
 
-
-
+    @Override
+    public int getMaxDragOffset(AppBarLayout view) {
+        return super.getMaxDragOffset(view);
+    }
 
     public void snapScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, boolean isExpand){
 
@@ -188,10 +188,15 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
 
 
-        if (isNest) {
+
+        if(dyUnconsumed>0){
+            isNest=true;
+            snapScroll(coordinatorLayout,child,true);
+        }
+//        if (isNest) {
             super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
-        }
+//        }
 
     }
 
