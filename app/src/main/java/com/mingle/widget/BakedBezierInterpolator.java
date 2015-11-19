@@ -1,4 +1,4 @@
-package com.mingle.weiget;
+package com.mingle.widget;
 
 import android.view.animation.Interpolator;
 

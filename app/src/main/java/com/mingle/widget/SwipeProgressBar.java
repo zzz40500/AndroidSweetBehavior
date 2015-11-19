@@ -1,4 +1,4 @@
-package com.mingle.weiget;
+package com.mingle.widget;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

@@ -11,9 +11,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.mingle.weiget.LoadingToolBar;
-
-import java.security.Key;
+import com.mingle.widget.LoadingToolBar;
 
 /**
  * 内部网页加载器

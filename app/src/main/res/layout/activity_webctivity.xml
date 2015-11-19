@@ -7,7 +7,7 @@
     android:background="@color/primary"
     tools:context="com.mingle.androidsweetbehavior.WebActivity">
 
-    <com.mingle.weiget.LoadingToolBar
+    <com.mingle.widget.LoadingToolBar
         android:id="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="?actionBarSize"/>

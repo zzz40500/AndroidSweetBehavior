@@ -103,15 +103,11 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onRvItemClick(View view, Object o, int position) {
 
-
-        mAppBarLayout.setExpanded(true, true);
-
-
         ImageEntity imageEntity = (ImageEntity) o;
         Glide.with(this).load(imageEntity.resId).into(mContentIv);
+        mAppBarLayout.setExpanded(true, true);
 
         InNestChildBehavior inNestChildBehavior= (InNestChildBehavior) ((CoordinatorLayout.LayoutParams)mRV.getLayoutParams()).getBehavior();
-
         inNestChildBehavior.smoothScrollToView(view, mRV);
     }
 
