@@ -16,7 +16,7 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
 
 
     private InAppBarBehavior mDependencyBehavior;
-    private View selfView;
+    private View mSelfView;
 
     public InNestChildBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,7 +26,7 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
     @Override
     public boolean onMeasureChild(CoordinatorLayout parent, View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
         child.setOnTouchListener(this);
-        selfView = child;
+        mSelfView = child;
         return super.onMeasureChild(parent, child, parentWidthMeasureSpec, widthUsed, parentHeightMeasureSpec, heightUsed);
     }
 
@@ -45,11 +45,15 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
     }
 
 
+    /**
+     * rv 可以设置最大的 paddingBottom
+     */
     private int mMaxPadding;
 
 
     @Override
     public boolean onDependentViewChanged(final CoordinatorLayout parent, final View child, final View dependency) {
+
 
 
         final CoordinatorLayout.Behavior behavior =
@@ -60,19 +64,19 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
 
         if (mMaxPadding == 0)
 
-            mMaxPadding = dependency.getMeasuredHeight() + ((InAppBarBehavior) behavior).getMaxDragOffset((AppBarLayout) dependency);
+            mMaxPadding = dependency.getMeasuredHeight() + mDependencyBehavior.getMaxDragOffset((AppBarLayout) dependency);
 
         if (mOffset == 0) {
-            selfView.setPadding(0, 0, 0, mOffset);
+            mSelfView.setPadding(0, 0, 0, mOffset);
         } else {
-            ViewCompat.postOnAnimation(selfView, new Runnable() {
+            ViewCompat.postOnAnimation(mSelfView, new Runnable() {
                 @Override
                 public void run() {
 
-                    selfView.removeCallbacks(mRunnable);
-                    selfView.post(mRunnable);
+                    mSelfView.removeCallbacks(mRunnable);
+                    mSelfView.post(mRunnable);
 
-                    mDependencyBehavior.setIsNest(false);
+//                    mDependencyBehavior.setIsNest(false);
                 }
             });
         }
@@ -82,6 +86,11 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
 
     public void smoothScrollToView(final View view, final RecyclerView rv) {
 
+
+
+        if(rv !=  mSelfView){
+            return ;
+        }
 
         Rect childRect = new Rect();
         view.getGlobalVisibleRect(childRect);
@@ -129,21 +138,21 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
     public Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            if (selfView.getPaddingBottom() != mOffset - mMaxPadding) {
+            if (mSelfView.getPaddingBottom() != mOffset - mMaxPadding) {
 
 
-                if (selfView.getPaddingBottom() >= mOffset - mMaxPadding) {
+                if (mSelfView.getPaddingBottom() >= mOffset - mMaxPadding) {
 
-                    selfView.setPadding(0, 0, 0,
-                            selfView.getPaddingBottom() + (mOffset - mMaxPadding - selfView.getPaddingBottom()) / 9
+                    mSelfView.setPadding(0, 0, 0,
+                            mSelfView.getPaddingBottom() + (mOffset - mMaxPadding - mSelfView.getPaddingBottom()) / 9
                     );
                 } else {
-                    selfView.setPadding(0, 0, 0,
+                    mSelfView.setPadding(0, 0, 0,
                             mOffset - mMaxPadding
                     );
                 }
 
-                selfView.postDelayed(this, 10);
+                mSelfView.postDelayed(this, 10);
             }
         }
     };

@@ -16,7 +16,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
     private boolean isNest = false;
-    private boolean mWasFlung;
 
     private boolean isExpand = false;
 
@@ -46,8 +45,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
                 mStartY = ev.getRawY();
                 if (!parent.isPointInChildBounds(child, x, y)) {
                     isNest = false;
-                } else {
-                    return super.onInterceptTouchEvent(parent, child, ev);
                 }
 
                 break;
@@ -56,7 +53,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
                     isNest = true;
 
-                    return super.onInterceptTouchEvent(parent, child, ev);
                 }
 
         }
@@ -93,8 +89,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
     public boolean isExpend(){
-
-
         return  getTopAndBottomOffset()==0;
     }
 
@@ -124,10 +118,8 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
 
-//        if(this.isExpand != isExpand) {
 
             int offset =0;
-
 
             if(isExpand){
                 offset=0;
@@ -147,12 +139,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-//        }
-
-
-
-
-
 
 
     }
@@ -180,9 +166,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
 
-        if(dyUnconsumed>0){
-            isNest=false;
-        }
         if (isNest) {
             super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
@@ -197,8 +180,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
         if (isNest) {
 
-            mWasFlung = super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
-            return mWasFlung;
+            return  super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
         }
         return false;
     }
