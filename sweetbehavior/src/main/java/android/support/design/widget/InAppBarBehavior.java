@@ -90,14 +90,17 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
         }
     }
 
-    @Override
-    public boolean onStartNestedScroll(CoordinatorLayout parent, AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes) {
-        return super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes);
-    }
 
+
+    public boolean isExpend(){
+
+
+        return  getTopAndBottomOffset()==0;
+    }
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
+
 
         if (isNest) {
             super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
@@ -107,16 +110,9 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, View target) {
-//        if(!mWasFlung){
-
-//        target.setPadding(0,0,0,getMaxDragOffset(abl));
         snapScrollTo(coordinatorLayout, abl);
-//        }else {
-//
-//            super.onStopNestedScroll(coordinatorLayout, abl, target);
-//        }
-
     }
+
 
 
     @Override
@@ -165,18 +161,13 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     private void snapScrollTo(CoordinatorLayout coordinatorLayout, AppBarLayout abl) {
 
 
-
-
-
-
-
             int distance = -getMaxDragOffset(abl);
 
             int offset = -getTopAndBottomOffset();
             if (isExpand) {
-                snapScroll(coordinatorLayout,abl, offset < distance / 5 );
+                snapScroll(coordinatorLayout,abl, offset < distance / 12 );
             } else {
-                snapScroll(coordinatorLayout,abl, offset < distance * 4 / 5  );
+                snapScroll(coordinatorLayout,abl, offset < distance * 11 / 12  );
 
             }
 
@@ -190,13 +181,12 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
 
         if(dyUnconsumed>0){
-            isNest=true;
-            snapScroll(coordinatorLayout,child,true);
+            isNest=false;
         }
-//        if (isNest) {
+        if (isNest) {
             super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
-//        }
+        }
 
     }
 

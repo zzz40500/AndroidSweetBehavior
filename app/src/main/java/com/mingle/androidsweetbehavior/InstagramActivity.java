@@ -2,24 +2,18 @@ package com.mingle.androidsweetbehavior;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.InAppBarBehavior;
+import android.support.design.widget.InNestChildBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +34,7 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
     private AppBarLayout mAppBarLayout;
     private CoordinatorLayout mCoordinatorLayout;
     private GridLayoutManager gridLayoutManager;
+    private int totalScroll;
 
     public static void startActivity(Context ctx) {
         ctx.startActivity(new Intent(ctx, InstagramActivity.class));
@@ -111,20 +106,16 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
 
         mAppBarLayout.setExpanded(true, true);
 
-        Rect childRect = new Rect();
-        view.getGlobalVisibleRect(childRect);
-        Rect rVRect = new Rect();
-        mRV.getGlobalVisibleRect(rVRect);
 
         ImageEntity imageEntity = (ImageEntity) o;
         Glide.with(this).load(imageEntity.resId).into(mContentIv);
 
-        int scrollBy=childRect.bottom - view.getHeight() - rVRect.top;
-        Log.e("InstagramActivity", mRV.canScrollVertically(scrollBy) + "");
-        if (mRV.canScrollVertically(scrollBy)) {
-            mRV.smoothScrollBy(0,scrollBy);
-        }
+        InNestChildBehavior inNestChildBehavior= (InNestChildBehavior) ((CoordinatorLayout.LayoutParams)mRV.getLayoutParams()).getBehavior();
 
+        inNestChildBehavior.smoothScrollToView(view, mRV);
     }
+
+
+
 
 }

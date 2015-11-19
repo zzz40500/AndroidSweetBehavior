@@ -1,34 +1,36 @@
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout android:id="@+id/coordinatorLY"
+                                                 xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
-
-                                                 android:background="#fff"
-                                                 android:id="@+id/coordinatorLY"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true">
+                                                 android:background="#fff"
+                                                 android:fitsSystemWindows="false">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
         app:layout_behavior="@string/InAppBarLayout"
+        >
 
-        android:fitsSystemWindows="false">
         <com.mingle.widget.ScaleLayout
             android:layout_width="match_parent"
             android:layout_height="450dp"
+            android:background="#0000"
+            android:minHeight="200px"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scaleProvideX="1"
             app:scaleProvideY="1"
-            android:minHeight="40dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
 
-                <ImageView
-                    android:id="@+id/contentIv"
-                    android:layout_width="fill_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="fill_parent"/>
+            <ImageView
+                android:id="@+id/contentIv"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="centerCrop"/>
+
+
 
         </com.mingle.widget.ScaleLayout>
 
@@ -38,10 +40,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-
-        android:clipToPadding="false"
-        app:layout_behavior="@string/InNestChild"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/InNestChild"/>
 
 </android.support.design.widget.CoordinatorLayout>
