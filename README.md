@@ -10,6 +10,19 @@ Android support Behavior 实践
 关于Behavior 和 Nest 事件的学习可以看一下我之前写的学习笔记1 [捂脸]
 
 使用方法也是很简单.
+###gradle      
+/build.gradle
+~~~
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+~~~
+/app/build.gradle
+~~~
+compile 'com.github.zzz40500:AndroidSweetBehavior:0.1'
+~~~
 布局中:
 ~~~
 
