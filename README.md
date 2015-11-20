@@ -21,7 +21,7 @@ repositories {
 ~~~
 /app/build.gradle
 ~~~
-compile 'com.github.zzz40500:AndroidSweetBehavior:0.1'
+ compile 'com.github.zzz40500:AndroidSweetBehavior:0.1.1'   
 ~~~
 布局中:
 ~~~
