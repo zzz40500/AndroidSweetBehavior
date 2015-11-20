@@ -97,7 +97,13 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
         Rect rVRect = new Rect();
         rv.getGlobalVisibleRect(rVRect);
 
-        final int scrollBy = Math.max(childRect.top, childRect.bottom - view.getHeight()) - rVRect.top;
+        final int scrollBy ;
+        if(childRect.top == rVRect.top){
+            scrollBy=childRect.bottom - view.getHeight() - rVRect.top;
+        }else{
+            scrollBy=childRect.top  - rVRect.top;
+
+        }
 
 
         if (scrollBy <= 0) {
@@ -120,8 +126,14 @@ public class InNestChildBehavior extends AppBarLayout.ScrollingViewBehavior impl
                         Rect rVRect = new Rect();
                         rv.getGlobalVisibleRect(rVRect);
 
+                        final int scrollBy ;
+                        if(childRect.top == rVRect.top){
+                            scrollBy=childRect.bottom - view.getHeight() - rVRect.top;
+                        }else{
+                            scrollBy=childRect.top  - rVRect.top;
 
-                        final int scrollBy = Math.max(childRect.top, childRect.bottom - view.getHeight()) - rVRect.top;
+                        }
+
                         if (scrollBy != 0) {
                             rv.smoothScrollBy(0, scrollBy);
                         }
