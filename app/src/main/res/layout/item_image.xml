@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <com.mingle.widget.ScaleLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:scaleProvideX="1"
-        app:scaleProvideY="1"
+
+<com.mingle.widget.ScaleLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    app:scaleProvideX="1"
+    app:scaleProvideY="1">
+
+    <ImageView
+        android:id="@+id/imageIv"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <ImageView
-            android:id="@+id/imageIv"
-            android:padding="2dp"
-            android:layout_width="fill_parent"
-            android:scaleType="centerCrop"
-            android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:padding="2dp"
+        android:scaleType="centerCrop"/>
+
+</com.mingle.widget.ScaleLayout>
 
 
-
-    </com.mingle.widget.ScaleLayout>
-
-
-</LinearLayout>

@@ -20,6 +20,7 @@ import com.mingle.sweetbehavior.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
@@ -35,6 +36,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -184,7 +186,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
                 R.styleable.SheetBehavior);
         setPeekHeight(a.getDimensionPixelSize(
                 R.styleable.SheetBehavior_peekHeight, 0));
-        setHideable(a.getBoolean(R.styleable.SheetBehavior_hiddenEnable, true));
+        setHideable(a.getBoolean(R.styleable.SheetBehavior_hiddenEnable, false));
         mSlideModel = a.getInt(R.styleable.SheetBehavior_slideMode, BOTTOM_SHEET);
         a.recycle();
         ViewConfiguration configuration = ViewConfiguration.get(context);
@@ -223,7 +225,6 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 
         // Offset the bottom sheet
         mSlideHelper.onLayoutChild(child);
-
         mViewRef = new WeakReference<>(child);
         mNestedScrollingChildRef = new WeakReference<>(findScrollingChild(child));
         return true;
@@ -382,12 +383,22 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
     }
 
     public void setSlideModel(int slideModel) {
-
         mSlideModel = slideModel;
         mSlideHelper = createSlideHelper(slideModel);
         if (mViewRef.get() != null) {
+            resetPosition(mViewRef.get());
             mSlideHelper.onLayoutChild(mViewRef.get());
         }
+    }
+
+    private void resetPosition(V v) {
+        int top=v.getTop();
+        ViewCompat.offsetTopAndBottom(v, -top);
+    }
+
+
+    public int getSlideModel() {
+        return mSlideModel;
     }
 
     /**
@@ -650,8 +661,13 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
                 if (top > mMaxOffset) {
                     mCallback.onSlide(bottomSheet, (float) (mMaxOffset - top) / mPeekHeight);
                 } else {
-                    mCallback.onSlide(bottomSheet,
-                            (float) (mMaxOffset - top) / ((mMaxOffset - mMinOffset)));
+
+                    float slide = (float) (mMaxOffset - top) / ((mMaxOffset - mMinOffset));
+                    mCallback.onSlide(bottomSheet, slide);
+
+                    if (!mTickleInvalidationFlag && slide > 0) {
+                        updateOffsets(bottomSheet);
+                    }
                 }
             }
         }
@@ -821,13 +837,13 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
             int top;
             @State int targetState;
             if (yvel > 0) { // Moving down
-                if (mHideable && releasedChild.getTop() < mMaxOffset) {
-                    top = mMaxOffset;
-                    targetState = STATE_COLLAPSED;
-                } else {
+//                if (mHideable && releasedChild.getTop() < mMaxOffset) {
+//                    top = mMaxOffset;
+//                    targetState = STATE_COLLAPSED;
+//                } else {
                     top = mMinOffset;
                     targetState = STATE_EXPANDED;
-                }
+//                }
             } else if (mHideable && shouldHide(releasedChild, yvel)) {
                 top = mMaxOffset - mPeekHeight;
                 targetState = STATE_HIDDEN;
@@ -869,19 +885,47 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
             }
         }
 
+
         public void dispatchOnSlide(int top) {
             View bottomSheet = mViewRef.get();
             if (bottomSheet != null && mCallback != null) {
+
+
                 if (top < mMaxOffset) {
                     mCallback.onSlide(bottomSheet, (float) (top - mMaxOffset) / mPeekHeight);
                 } else {
-                    mCallback.onSlide(bottomSheet,
-                            (float) (top - mMaxOffset) / ((mMinOffset - mMaxOffset)));
+
+                    float slide = (float) (top - mMaxOffset) / ((mMinOffset - mMaxOffset));
+                    mCallback.onSlide(bottomSheet, slide);
+
+                    if (!mTickleInvalidationFlag && slide > 0) {
+                        updateOffsets(bottomSheet);
+                    }
                 }
             }
         }
 
 
+    }
+
+    private boolean mTickleInvalidationFlag = false;
+
+    private void updateOffsets(View view) {
+
+        // Manually invalidate the view and parent to make sure we get drawn pre-M
+        if (Build.VERSION.SDK_INT < 23) {
+            tickleInvalidationFlag(view);
+            final ViewParent vp = view.getParent();
+            if (vp instanceof View) {
+                tickleInvalidationFlag((View) vp);
+            }
+        }
+    }
+
+    private static void tickleInvalidationFlag(View view) {
+        final float y = ViewCompat.getTranslationY(view);
+        ViewCompat.setTranslationY(view, y + 1);
+        ViewCompat.setTranslationY(view, y);
     }
 
     private class BottomSlideHelper extends SlideHelper {
@@ -1018,13 +1062,13 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
             int top;
             @State int targetState;
             if (yvel < 0) { // Moving up
-                if (mHideable && releasedChild.getTop() < mMaxOffset) {
-                    top = mMaxOffset;
-                    targetState = STATE_COLLAPSED;
-                } else {
+//                if (mHideable && releasedChild.getTop() < mMaxOffset) {
+//                    top = mMaxOffset;
+//                    targetState = STATE_COLLAPSED;
+//                } else {
                     top = mMinOffset;
                     targetState = STATE_EXPANDED;
-                }
+//                }
             } else if (mHideable && shouldHide(releasedChild, yvel)) {
                 top = mParentHeight;
                 targetState = STATE_HIDDEN;

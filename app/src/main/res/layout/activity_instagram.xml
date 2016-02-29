@@ -1,10 +1,11 @@
-<android.support.design.widget.CoordinatorLayout android:id="@+id/coordinatorLY"
-                                                 xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="#fff"
-                                                 android:fitsSystemWindows="false">
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLY"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:fitsSystemWindows="false">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -29,7 +30,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"/>
-
 
 
         </com.mingle.widget.ScaleLayout>
