@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void secondClick(View view) {
-        Toast.makeText(this,"期待吧",Toast.LENGTH_LONG).show();
+        SecondActivity.startActivity(this);
+
     }
 }

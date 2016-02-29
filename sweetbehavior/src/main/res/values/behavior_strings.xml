@@ -2,4 +2,5 @@
 
     <string name="InAppBarLayout">android.support.design.widget.InAppBarBehavior</string>
     <string name="InNestChild">android.support.design.widget.InNestChildBehavior</string>
+    <string name="SheetBehavior">android.support.design.widget.SheetBehavior</string>
 </resources>

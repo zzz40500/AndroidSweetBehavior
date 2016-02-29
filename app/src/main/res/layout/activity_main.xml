@@ -14,7 +14,7 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="studyNotesAction"
+        android:visibility="gone"
         android:text="android.support.design 学习笔记 1"
         android:textAllCaps="false"/>
 
@@ -29,7 +29,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="secondClick"
-        android:text="第二种 (待开发)"
+        android:text="第二种 "
         android:textAllCaps="false"/>
 
 
