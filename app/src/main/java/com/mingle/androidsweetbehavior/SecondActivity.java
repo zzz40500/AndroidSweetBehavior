@@ -27,6 +27,7 @@ public class SecondActivity extends AppCompatActivity {
 
 
         mSheetBehavior =SheetBehavior.from(view);
+//        mSheetBehavior.setHideable(true);
         mSheetBehavior.setBottomSheetCallback(new SheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, @SheetBehavior.State int newState) {

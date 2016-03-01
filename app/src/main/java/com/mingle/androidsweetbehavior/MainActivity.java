@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     public void instagramAction(View view) {
 
         InstagramActivity.startActivity(this);
-
-
     }
 
     public void studyNotesAction(View view) {

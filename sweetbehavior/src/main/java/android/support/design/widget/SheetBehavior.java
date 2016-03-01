@@ -392,7 +392,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
     }
 
     private void resetPosition(V v) {
-        int top=v.getTop();
+        int top = v.getTop();
         ViewCompat.offsetTopAndBottom(v, -top);
     }
 
@@ -429,6 +429,19 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
      */
     public final void setState(@State int state) {
         mSlideHelper.setState(state);
+    }
+
+
+    public void expand() {
+        mSlideHelper.setState(STATE_EXPANDED);
+    }
+
+    public void collapsed() {
+        mSlideHelper.setState(STATE_COLLAPSED);
+    }
+
+    public void hidden() {
+        mSlideHelper.setState(STATE_HIDDEN);
     }
 
     /**
@@ -665,7 +678,8 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
                     float slide = (float) (mMaxOffset - top) / ((mMaxOffset - mMinOffset));
                     mCallback.onSlide(bottomSheet, slide);
 
-                    if (!mTickleInvalidationFlag && slide > 0) {
+                    if (mNeedTickleInvalidationFlag && slide > 0) {
+                        mNeedTickleInvalidationFlag = false;
                         updateOffsets(bottomSheet);
                     }
                 }
@@ -711,6 +725,9 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 
             mMaxOffset = -mChildHeight + mPeekHeight;
             mMinOffset = 0;
+            if (mPeekHeight == 0) {
+                mNeedTickleInvalidationFlag = true;
+            }
             if (mState == STATE_EXPANDED) {
                 ViewCompat.offsetTopAndBottom(child, mMinOffset);
             } else if (mHideable && mState == STATE_HIDDEN) {
@@ -724,6 +741,9 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
         void setPeekHeight(int peekHeight) {
             mPeekHeight = Math.max(0, peekHeight);
             mMaxOffset = -mChildHeight + mPeekHeight;
+            if (mPeekHeight == 0) {
+                mNeedTickleInvalidationFlag = true;
+            }
         }
 
         public int canScrollVertically() {
@@ -841,8 +861,8 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 //                    top = mMaxOffset;
 //                    targetState = STATE_COLLAPSED;
 //                } else {
-                    top = mMinOffset;
-                    targetState = STATE_EXPANDED;
+                top = mMinOffset;
+                targetState = STATE_EXPANDED;
 //                }
             } else if (mHideable && shouldHide(releasedChild, yvel)) {
                 top = mMaxOffset - mPeekHeight;
@@ -898,7 +918,8 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
                     float slide = (float) (top - mMaxOffset) / ((mMinOffset - mMaxOffset));
                     mCallback.onSlide(bottomSheet, slide);
 
-                    if (!mTickleInvalidationFlag && slide > 0) {
+                    if (mNeedTickleInvalidationFlag && slide > 0) {
+                        mNeedTickleInvalidationFlag = false;
                         updateOffsets(bottomSheet);
                     }
                 }
@@ -908,7 +929,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 
     }
 
-    private boolean mTickleInvalidationFlag = false;
+    private boolean mNeedTickleInvalidationFlag = false;
 
     private void updateOffsets(View view) {
 
@@ -939,6 +960,9 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
                 mParentHeight = parent.getHeight();
                 mMinOffset = Math.max(0, mParentHeight - child.getHeight());
                 mMaxOffset = mParentHeight - mPeekHeight;
+                if (mPeekHeight == 0) {
+                    mNeedTickleInvalidationFlag = true;
+                }
                 if (mState == STATE_EXPANDED) {
                     ViewCompat.offsetTopAndBottom(child, mMinOffset);
                 } else if (mHideable && mState == STATE_HIDDEN) {
@@ -958,6 +982,9 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
         public void setPeekHeight(int peekHeight) {
             mPeekHeight = Math.max(0, peekHeight);
             mMaxOffset = mParentHeight - peekHeight;
+            if (mPeekHeight == 0) {
+                mNeedTickleInvalidationFlag = true;
+            }
         }
 
         public void setState(@State int state) {
@@ -1066,8 +1093,8 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 //                    top = mMaxOffset;
 //                    targetState = STATE_COLLAPSED;
 //                } else {
-                    top = mMinOffset;
-                    targetState = STATE_EXPANDED;
+                top = mMinOffset;
+                targetState = STATE_EXPANDED;
 //                }
             } else if (mHideable && shouldHide(releasedChild, yvel)) {
                 top = mParentHeight;

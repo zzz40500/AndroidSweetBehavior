@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         app:layout_behavior="@string/SheetBehavior"
         app:peekHeight="50dp"
-        android:layout_height="400dp">
+        android:layout_height="match_parent">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -26,50 +26,51 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:background="#3F51B5"
-                    android:layout_height="100dp"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:background="#303F9F"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#FF4081"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#daa520"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#e5909c"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#854442"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#045ca2"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#ffb1b1"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#045ca2"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#3e3e3e"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
                 <View
                     android:layout_width="match_parent"
                     android:background="#ffb973"
-                    android:layout_height="100dp"/>
+                    android:layout_height="160dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:background="#3F51B5"
+                    android:layout_height="160dp"/>
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
