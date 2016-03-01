@@ -54,7 +54,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
     /**
      * Callback for monitoring events about bottom sheets.
      */
-    public abstract static class BottomSheetCallback {
+    public abstract static class SheetCallback {
 
         /**
          * Called when the bottom sheet changes its state.
@@ -151,7 +151,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
 
     private WeakReference<View> mNestedScrollingChildRef;
 
-    private BottomSheetCallback mCallback;
+    private SheetCallback mCallback;
 
     private VelocityTracker mVelocityTracker;
 
@@ -416,7 +416,7 @@ public class SheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V>
      *
      * @param callback The callback to notify when bottom sheet events occur.
      */
-    public void setBottomSheetCallback(BottomSheetCallback callback) {
+    public void setBottomSheetCallback(SheetCallback callback) {
         mCallback = callback;
     }
 

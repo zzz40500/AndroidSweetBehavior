@@ -2,7 +2,6 @@ package com.mingle.androidsweetbehavior;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.SheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,7 @@ public class SecondActivity extends AppCompatActivity {
 
         mSheetBehavior =SheetBehavior.from(view);
 //        mSheetBehavior.setHideable(true);
-        mSheetBehavior.setBottomSheetCallback(new SheetBehavior.BottomSheetCallback() {
+        mSheetBehavior.setBottomSheetCallback(new SheetBehavior.SheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, @SheetBehavior.State int newState) {
 
