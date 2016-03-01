@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.InAppBarBehavior;
 import android.support.design.widget.InNestChildBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -68,10 +69,9 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
             list.add(item);
         }
 
-         gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
+        gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
 
         mRV.setLayoutManager(gridLayoutManager);
-
 
 
         mRV.setAdapter(new ImageRVAdapter(list, this));
@@ -105,13 +105,12 @@ public class InstagramActivity extends AppCompatActivity implements View.OnClick
 
         ImageEntity imageEntity = (ImageEntity) o;
         Glide.with(this).load(imageEntity.resId).into(mContentIv);
-        mAppBarLayout.setExpanded(true, true);
+        InAppBarBehavior appBarBehavior = (InAppBarBehavior) ((CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams()).getBehavior();
+        appBarBehavior.setExpanded(true, true);
 
         InNestChildBehavior inNestChildBehavior= (InNestChildBehavior) ((CoordinatorLayout.LayoutParams)mRV.getLayoutParams()).getBehavior();
         inNestChildBehavior.smoothScrollToView(view, mRV);
     }
-
-
 
 
 }

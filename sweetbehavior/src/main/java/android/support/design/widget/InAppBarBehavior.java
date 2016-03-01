@@ -2,12 +2,8 @@ package android.support.design.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by zzz40500 on 15/11/14.
@@ -16,7 +12,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
 
     private static final String TAG = "InAppBarBehavior";
 
-    private boolean isNest = false;
+    private boolean mIsNested = false;
 
     private boolean isExpand = false;
 
@@ -40,12 +36,12 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
                 }
                 mStartY = ev.getRawY();
                 if (!parent.isPointInChildBounds(child, x, y)) {
-                    isNest = false;
+                    mIsNested = false;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (parent.isPointInChildBounds(child, x, y) || ev.getY() - mStartY > 0) {
-                    isNest = true;
+                    mIsNested = true;
                 }
         }
         return super.onInterceptTouchEvent(parent, child, ev);
@@ -81,8 +77,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
 
-
-        if (isNest) {
+        if (mIsNested) {
             super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
         }
     }
@@ -122,7 +117,6 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
                 @Override
                 public void onAnimationUpdate(ValueAnimatorCompat animator) {
 
-                    Log.e(TAG, "onAnimationUpdate: " +animator.getAnimatedIntValue());
                     setHeaderTopBottomOffset(coordinatorLayout, child,
                             animator.getAnimatedIntValue());
                 }
@@ -131,7 +125,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
             mAnimator.cancel();
         }
         mAnimator.setIntValues(getTopBottomOffsetForScrollingSibling(), offset);
-        mAnimator.setDuration(30);
+        mAnimator.setDuration(300);
         mAnimator.start();
     }
 
@@ -151,7 +145,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
 
-        if (isNest) {
+        if (mIsNested) {
             super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         }
 
@@ -161,11 +155,27 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     @Override
     public boolean onNestedFling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, float velocityX, float velocityY, boolean consumed) {
 
-        if (isNest) {
+        if (mIsNested) {
             return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
         }
         return false;
     }
+
+    private CoordinatorLayout mCoordinatorLayout;
+    private AppBarLayout mAppBarLayout;
+
+    @Override
+    public boolean onLayoutChild(CoordinatorLayout parent, AppBarLayout abl, int layoutDirection) {
+        mCoordinatorLayout = parent;
+        mAppBarLayout = abl;
+        return super.onLayoutChild(parent, abl, layoutDirection);
+    }
+
+    public void setExpanded(boolean expanded, boolean animate) {
+
+        snapScroll(mCoordinatorLayout,mAppBarLayout,expanded);
+    }
+
 
 
     @Override
@@ -174,7 +184,7 @@ public class InAppBarBehavior extends AppBarLayout.Behavior {
     }
 
     public void setIsNest(boolean isNest) {
-        this.isNest = isNest;
+        this.mIsNested = isNest;
     }
 
 }
