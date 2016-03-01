@@ -21,7 +21,7 @@ Android support Behavior 实践
 
 ##实践2
 ![效果.gif](http://upload-images.jianshu.io/upload_images/166866-89cd7f9f19bf12bf.gif?imageMogr2/auto-orient/strip)   
-SheetBehavior :扩展自BottomSheetBehavior  ,可以下拉的SheetBehavior
+SheetBehavior :扩展自BottomSheetBehavior  ,可以下拉的SheetBehavior   
 使用方法:http://www.jianshu.com/p/d338695d4fd8
 
 
