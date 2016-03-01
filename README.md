@@ -6,11 +6,11 @@ Android support Behavior 实践
 ![效果图.gif](http://upload-images.jianshu.io/upload_images/166866-b243d27707cc6d4b.gif?imageMogr2/auto-orient/strip)
 
 
-通过自定义Behavior 和 Nest 事件,达到 instagram 选择照片的的效果.
-使用方法:http://www.jianshu.com/p/5081c6a0113b
+通过自定义Behavior 和 Nest 事件,达到 instagram 选择照片的的效果.   
+使用方法:http://www.jianshu.com/p/5081c6a0113b   
 
-存在的问题: 
-里面有一块使用了setPadding的方法.后期使用自定LayoutManager 来实现;
+存在的问题:    
+里面有一块使用了setPadding的方法.导致有点顿,后期使用自定LayoutManager 来实现;   
  
 
 
